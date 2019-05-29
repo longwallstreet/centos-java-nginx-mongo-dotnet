@@ -30,8 +30,14 @@ RUN wget https://repo.mongodb.org/yum/redhat/7/mongodb-org/3.6/x86_64/RPMS/mongo
 RUN yum -y install openssh-clients net-tools telnet
 
 # 6. install nginx config
-RUN mkdir -p /opt/nginx
+RUN mkdir -p /opt/yi
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY nginx/website /usr/share/nginx/html
 
+# 7. install mongodb config
+RUN mkdir -p /var/lib/mongo
+COPY mongod.conf /etc
+
+#EXPOSE 80
+#CMD ["nginx", "-g", "daemon off;"]
