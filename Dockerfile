@@ -45,5 +45,8 @@ COPY nginx/website /usr/share/nginx/html
 RUN mkdir -p /var/lib/mongo
 COPY mongod.conf /etc
 
+# 8. set timezone to Shanghai
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/shanghai" > /etc/timezone;
+
 #EXPOSE 80
 #CMD ["nginx", "-g", "daemon off;"]
