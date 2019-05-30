@@ -12,7 +12,8 @@ RUN rpm -Uvh https://packages.microsoft.com/config/rhel/7/packages-microsoft-pro
 # 3. install nginx online
 RUN yum -y install wget openssl \
 	&& wget http://nginx.org/packages/centos/7/x86_64/RPMS/nginx-1.16.0-1.el7.ngx.x86_64.rpm \
-	&& rpm -iv nginx-1.16.0-1.el7.ngx.x86_64.rpm
+	&& rpm -iv nginx-1.16.0-1.el7.ngx.x86_64.rpm \
+	&& rm -f nginx-1.16.0-1.el7.ngx.x86_64.rpm
 
 # 4. install mongodb online 
 RUN wget https://repo.mongodb.org/yum/redhat/7/mongodb-org/3.6/x86_64/RPMS/mongodb-org-3.6.4-1.el7.x86_64.rpm \
@@ -24,7 +25,12 @@ RUN wget https://repo.mongodb.org/yum/redhat/7/mongodb-org/3.6/x86_64/RPMS/mongo
 	&& rpm -iv mongodb-org-shell-3.6.4-1.el7.x86_64.rpm \
 	&& rpm -iv mongodb-org-tools-3.6.4-1.el7.x86_64.rpm \
 	&& rpm -iv mongodb-org-server-3.6.4-1.el7.x86_64.rpm \
-	&& rpm -iv mongodb-org-3.6.4-1.el7.x86_64.rpm
+	&& rpm -iv mongodb-org-3.6.4-1.el7.x86_64.rpm \
+        && rm -f mongodb-org-mongos-3.6.4-1.el7.x86_64.rpm \ 
+		 mongodb-org-shell-3.6.4-1.el7.x86_64.rpm \ 
+		 mongodb-org-tools-3.6.4-1.el7.x86_64.rpm \
+		 mongodb-org-server-3.6.4-1.el7.x86_64.rpm \
+		 mongodb-org-3.6.4-1.el7.x86_64.rpm
 
 # 5. install common instructions online
 RUN yum -y install openssh-clients net-tools telnet
