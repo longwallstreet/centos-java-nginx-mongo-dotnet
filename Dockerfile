@@ -33,7 +33,7 @@ RUN wget https://repo.mongodb.org/yum/redhat/7/mongodb-org/3.6/x86_64/RPMS/mongo
 		 mongodb-org-3.6.4-1.el7.x86_64.rpm
 
 # 5. install common instructions online
-RUN yum -y install openssh-clients net-tools telnet
+RUN yum -y install openssh-clients net-tools telnet iproute which jq rsync htop atop iotop mtr 
 
 # 6. install nginx config
 RUN mkdir -p /opt/yi
@@ -43,10 +43,20 @@ COPY nginx/website /usr/share/nginx/html
 
 # 7. install mongodb config
 RUN mkdir -p /var/lib/mongo
-COPY mongod.conf /etc
 
 # 8. set timezone to Shanghai
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/shanghai" > /etc/timezone;
 
-#EXPOSE 80
+# 9. install supervisor4.0.2
+RUN yum install -y python-setuptools hostname inotify-tools yum-utils && easy_install pip; pip install supervisor==4.0.2
+
+# 10. create devops user
+RUN yum install -y sudo
+RUN echo "root:123qwe!@#" | chpasswd
+#RUN useradd -rm -d /home/devops -s /bin/bash devops && echo 'devops'|passwd devops --stdin
+#RUN echo "devops ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/user && chmod 0440 /etc/sudoers.d/user
+#USER devops
+#WORKDIR /home/devops
+
+EXPOSE 80 27017 9001
 #CMD ["nginx", "-g", "daemon off;"]
