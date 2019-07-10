@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo docker build --tag=centos-java-nginx-mongo-dotnet .
+sudo docker build --tag=centos-java-nginx-mongo-dotnet-supervisor .
