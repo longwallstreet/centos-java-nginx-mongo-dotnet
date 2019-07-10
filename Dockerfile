@@ -34,18 +34,12 @@ RUN wget https://repo.mongodb.org/yum/redhat/7/mongodb-org/3.6/x86_64/RPMS/mongo
 RUN yum install -y python-setuptools hostname inotify-tools yum-utils && easy_install pip; pip install supervisor==4.0.2
 
 # 6. install common instructions online
-RUN yum -y install openssh-clients net-tools telnet iproute which jq rsync htop atop iotop mtr sudo
+RUN yum -y install openssh-clients net-tools telnet iproute which jq rsync htop atop iotop mtr sudo less
 
-# 7. install nginx config
-RUN mkdir -p /opt/yi
-COPY nginx/nginx.conf /etc/nginx/nginx.conf
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY nginx/website /usr/share/nginx/html
-
-# 8. create mongodb path
-RUN mkdir -p /var/lib/mongo
-
-# 9. set timezone to Shanghai
+# 7. set timezone to Shanghai
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/shanghai" > /etc/timezone;
+
+# 8. change root passwd
+RUN echo "root:devops" | chpasswd
 
 EXPOSE 80 27017 9001
